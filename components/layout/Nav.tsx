@@ -3,39 +3,41 @@ import { useTab } from "./TabContext";
 import { TabId } from "@/types";
 import { cn } from "@/lib/utils";
 
-const tabs: { id: TabId; label: string; short: string }[] = [
-  { id: "overview",  label: "🏠 Overview",        short: "🏠" },
-  { id: "schedule",  label: "📅 Daily Schedule",   short: "📅" },
-  { id: "days",      label: "📖 Day Scripts",      short: "📖" },
-  { id: "rotation",  label: "🔄 Weekly Rotation",  short: "🔄" },
-  { id: "tracker",   label: "✅ Tracker",           short: "✅" },
-  { id: "prep",      label: "🌅 Parent Prep",       short: "🌅" },
-  { id: "tips",      label: "💡 Parent Tips",       short: "💡" },
+const tabs: { id: TabId; emoji: string; label: string }[] = [
+  { id: "overview",  emoji: "🏠", label: "Home" },
+  { id: "schedule",  emoji: "📅", label: "Schedule" },
+  { id: "days",      emoji: "📖", label: "Scripts" },
+  { id: "rotation",  emoji: "🔄", label: "Rotation" },
+  { id: "tracker",   emoji: "✅", label: "Tracker" },
+  { id: "prep",      emoji: "🌅", label: "Prep" },
+  { id: "tips",      emoji: "💡", label: "Tips" },
 ];
 
 export default function Nav() {
   const { active, setActive } = useTab();
   return (
     <nav className="no-print sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
-      <div className="mx-auto max-w-4xl">
-        <div className="hide-scrollbar flex overflow-x-auto">
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActive(t.id)}
-              className={cn(
-                "shrink-0 whitespace-nowrap border-b-[3px] px-3 py-3 font-nunito text-xs font-bold transition-all sm:px-5 sm:py-4 sm:text-sm",
-                active === t.id
-                  ? "border-violet text-violet"
-                  : "border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-800"
-              )}
-            >
-              {/* Show short label on very small screens, full label on sm+ */}
-              <span className="sm:hidden">{t.short}<span className="sr-only"> {t.label}</span></span>
-              <span className="hidden sm:inline">{t.label}</span>
-            </button>
-          ))}
-        </div>
+      <div className="hide-scrollbar flex overflow-x-auto px-1 py-2 gap-1 sm:justify-center sm:px-3">
+        {tabs.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setActive(t.id)}
+            className={cn(
+              "flex shrink-0 flex-col items-center justify-center rounded-xl px-3 py-1.5 transition-all min-w-[52px] sm:min-w-[60px]",
+              active === t.id
+                ? "bg-violet text-white shadow-sm"
+                : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+            )}
+          >
+            <span className="text-lg leading-none sm:text-xl">{t.emoji}</span>
+            <span className={cn(
+              "mt-0.5 text-[9px] font-bold leading-none sm:text-[10px]",
+              active === t.id ? "text-white" : "text-gray-500"
+            )}>
+              {t.label}
+            </span>
+          </button>
+        ))}
       </div>
     </nav>
   );
